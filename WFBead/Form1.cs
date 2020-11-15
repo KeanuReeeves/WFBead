@@ -16,5 +16,20 @@ namespace WFBead
         {
             InitializeComponent();
         }
+
+        private void pekaruHozzaAd_Click(object sender, EventArgs e)
+        {
+            if (pekaruNev.Text!="" && pekaruAr.Text!="") 
+            {
+                bool l = laktozmentes.Checked;
+                Pekaru p = new Pekaru(pekaruNev.Text, Convert.ToInt32(pekaruAr.Text), l);
+                PekaruLista.Items.Add(p);
+            }
+        }
+
+        private void PekaruLista_SelectedValueChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
