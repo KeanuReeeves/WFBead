@@ -24,7 +24,7 @@ namespace WFBead
         internal List<Pekaru> Termekek { get => termekek; set => termekek = value; }
         public override string ToString()
         {
-            return string.Format("{0}-{1}",this.nev,this.alapitva.Date);
+            return string.Format("{0}-{1}. {2}. {3}.",this.nev,this.alapitva.Year,this.alapitva.Month,this.alapitva.Day);
         }
     }
 }

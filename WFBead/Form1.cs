@@ -12,6 +12,7 @@ namespace WFBead
 {
     public partial class Form1 : Form
     {
+        private List<Pekaru> pekaru;
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +30,103 @@ namespace WFBead
 
         private void PekaruLista_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (PekaruLista.SelectedIndex >= 0)
+            {
+                Pekaru p = (Pekaru)PekaruLista.SelectedItem;
+                pekaruNev.Text = p.Nev;
+                pekaruAr.Text = Convert.ToString(p.Ar);
+                torles.Visible = true;
+            }
+            else
+            {
+                pekaruNev.Text = "";
+                pekaruAr.Text = "";
+            }
+        }
+
+        private void torles_Click(object sender, EventArgs e)
+        {
+            PekaruLista.Items.RemoveAt(PekaruLista.SelectedIndex);
+            PekaruLista.SelectedIndex = -1;
+            torles.Visible = false;
+        }
+
+        private void PeksegHozzaAd_Click(object sender, EventArgs e)
+        {
+            if (peksegNev.Text!="")
+            {
+                pekaru = new List<Pekaru>();
+
+                Pekseg p = new Pekseg(peksegNev.Text, pekaru, DateTime.Now);
+                PeksegLista.Items.Add(p);
+                PeksegStat.Items.Add(p);
+            }
+        }
+
+        private void hozzaAdpekaru_Click(object sender, EventArgs e)
+        {
+            PekaruLista2.Items.Clear();
+          
+                var psideiglenes = PeksegLista.SelectedItem;
+                Pekseg p = (Pekseg)psideiglenes;
+                var paideiglenes = PekaruLista.SelectedItem;
+                Pekaru pa = (Pekaru)paideiglenes;
+          
+                p.Termekek.Add(pa);
+                
+                for (int i = 0; i < p.Termekek.Count; i++)
+                {
+                    PekaruLista2.Items.Add(p.Termekek[i]);
+                }
             
+        }
+
+        private void PeksegStat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+                var psideiglenes = PeksegStat.SelectedItem;
+                Pekseg p = (Pekseg)psideiglenes;
+                label1.Text = p.Nev;
+                label2.Text += p.Alapitva;
+                label3.Text += p.Termekek.Count + " db";
+                int sum=0;
+                foreach (var item in p.Termekek)
+                {
+                    sum += item.Ar;
+                }
+                label4.Text += (sum / p.Termekek.Count) + " Ft";
+                List<int> arak = new List<int>();
+                int min = p.Termekek[0].Ar;
+                int minindex = 0;
+                for (int i = 0; i < p.Termekek.Count; i++)
+                {
+                    if (p.Termekek[i].Ar<min)
+                    {
+                        min = p.Termekek[i].Ar;
+                        minindex = i;
+                    }
+                }
+                label5.Text += p.Termekek[minindex];
+                int max = p.Termekek[0].Ar;
+                int maxindex = 0;
+                for (int i = 0; i < p.Termekek.Count; i++)
+                {
+                    if (p.Termekek[i].Ar > min)
+                    {
+                        max = p.Termekek[i].Ar;
+                        maxindex = i;
+                    }
+                }
+                label6.Text += p.Termekek[maxindex];
+                double db = 0;
+                foreach (var item in p.Termekek)
+                {
+                    if (item.Laktozmentes)
+                    {
+                        db++;
+                    }
+                }
+            double atlag = db / (double)p.Termekek.Count * 100;
+                label7.Text += db + ", " + atlag + "%";
         }
     }
 }
