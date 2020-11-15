@@ -11,7 +11,7 @@ namespace WFBead
         private string nev;
         private int ar;
         private bool laktozmentes;
-        public Pekaru()
+        public Pekaru(string nev)
         { 
         
         }
